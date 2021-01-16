@@ -2,6 +2,10 @@
 
 This repository for now contains 3 scripts for Wifi control.
 
+## Explanation:
+
+This scripts are testet on Mikrotik hAP ac2. In this device I use wlan1 which is 2.4Ghz wifi, than wlan2 which is 5Ghz wifi and then wlan3 which is virtual network used as Guest Network and it is connected to wlan1.
+
 ## How to use:
 
 1. Set scheduller at morning (for example at 8:00) to execute `enable-wifi.rsc`.
