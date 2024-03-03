@@ -1,6 +1,6 @@
 # MikroTik Scripts
 
-This repository for now contains 3 scripts for Wifi control.
+This repository for now contains 4 scripts for Wifi control.
 
 ## Explanation:
 
@@ -11,6 +11,7 @@ This scripts are testet on Mikrotik hAP ac2. In this device I use wlan1 which is
 1. Set scheduller at morning (for example at 8:00) to execute `enable-wifi.msl`.
 2. Set scheduller at evening (for example at 22:00) to execute `disable-wifi.msl`.
 3. Set mode button to execute script `toogle-wifi.msl`.
+4. Set scheduller at required interval to send backup of configuration using `send-backup.msl`.
 
 ### Enable wifi explained
 Script will enable wlan1 and wlan2 if disabled. It will set global variable **dayMode = true**.

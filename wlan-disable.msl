@@ -1,0 +1,31 @@
+:global daymode
+:set $daymode false
+
+:local Radio2Disabled [/interface get wifi2g disabled]
+:local Radio5Disabled [/interface get wifi5g disabled]
+:local RadioGuestDisabled [/interface get wifi_guest disabled]
+#:local clientsCount [/interface wireless registration-table print count-only]
+#:local counter 0
+
+# if clients connected, check for clients next 5 hours and if still connected exit this script.
+#:while ($clientsCount>0 || $counter<60) do={
+#   :log info "Can't disable Wifi because $clientsCount clients is connected! Waiting 5 minutes."
+#   :delay 5m;
+#   :set ($counter+1)
+#   :set clientsCount [/interface wireless registration-table print count-only]
+#}
+
+#if ($clientsCount=0)
+   if ($RadioGuestDisabled=false) do {
+      /interface wifi disable wifi_guest
+      :log info "Guest network disabled"
+   }
+   if ($Radio2Disabled=false) do {
+      /interface wifi disable wifi2g
+      :log info "2.4Ghz network disabled"
+   }
+   if ($Radio5Disabled=false) do {
+      /interface wifi disable wifi5g
+      :log info "5Ghz network disabled"
+   }
+#}
