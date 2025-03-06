@@ -3,7 +3,7 @@
 /system/backup/save name=backup
 
 # send by email
-/tool e-mail send to="****@****" subject="$[/system identity get name] export & backup" body="$[/system clock get date] configuration file" file=export.rsc,backup.backup
+/tool e-mail send to="****@****.***" subject="$[/system identity get name] export & backup" body="$[/system clock get date] configuration file" file="export.rsc,backup.backup"
 
 # clean up
 :delay 30s
