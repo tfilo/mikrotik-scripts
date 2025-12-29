@@ -1,33 +1,32 @@
 # MikroTik Scripts
 
-This repository for now contains 4 scripts for Wifi control.
+This repository contains four scripts for MikroTik devices that I find useful.
 
-## Explanation:
+## Overview
 
-This scripts are testet on Mikrotik hAP ac2. In this device I use wlan1 which is 2.4Ghz wifi, than wlan2 which is 5Ghz wifi and then wlan3 which is virtual network used as Guest Network and it is connected to wlan1. Scripts use MikroTik scripting language. And it was tested with firmware version 6.48.
+These scripts were tested on a MikroTik **hAP ac2** running **RouterOS 7.20.6**. In my setup, I renamed `wlan1` and `wlan2` to indicate their frequencies ("2ghz" and "5ghz"). If you use different interface names, please update the scripts accordingly. Additionally, I use virtual interfaces for "iot" and "guest." If you do not have these interfaces, you should remove them from the scripts.
 
-## How to use:
+## How to Use
 
-1. Set scheduller at morning (for example at 8:00) to execute `enable-wifi.msl`.
-2. Set scheduller at evening (for example at 22:00) to execute `disable-wifi.msl`.
-3. Set mode button to execute script `toogle-wifi.msl`.
-4. Set scheduller at required interval to send backup of configuration using `send-backup.msl`.
+1.  **Morning Schedule:** Set a scheduler (e.g., at 08:00) to execute `wlan-enable.msl`.
+2.  **Evening Schedule:** Set a scheduler (e.g., at 22:00) to execute `wlan-disable.msl`.
+3.  **Mode Button:** Set the "Mode" button to execute the `wlan-toggle.msl` script.
+4.  **Backups:** Set a scheduler at your preferred interval to send a configuration backup using `send-backup.msl`.
 
-### Enable wifi explained
-Script will enable wlan1 and wlan2 if disabled. It will set global variable **dayMode = true**.
+---
 
-### Disable wifi explained
-Script will disable wlan1, wlan2 and wlan3 if enabled. It will set global variable **dayMode = false**.
+### wlan-enable.msl
+This script checks if the "2ghz," "5ghz," and "iot" interfaces are disabled. Based on the state of these interfaces, it will enable them as needed.
 
-### Toogle wifi explained
-##### When dayMode == true, than it will do following:
-* single press will disable/enable wlan3.
+### wlan-disable.msl
+This script checks if the "2ghz," "5ghz," "iot," and "guest" interfaces are enabled. Based on their state, it will disable them as needed.
 
-##### When dayMode == false, than it will do following:
+### wlan-toggle.msl
+This script checks the current state of the "guest" interface and toggles it. If the interface is enabled, the script will disable it; if it is disabled, the script will enable it.
 
-###### When wlan1 and wlan2 is disabled:
-* single press will enable wlan1 and wlan2,
-* second press within 5 seconds, will enable wlan3 while wlan1 and wlan2 will remain enabled.
+### send-backup.msl
+This script creates an `.rsc` backup and exports the configuration to temporary files. These files are then sent as email attachments. 
 
-###### When wlan1 and wlan2 is enabled:
-* single press will disable wlan1, wlan2 and if wlan3 is enabled it will disable wlan3 too.
+> **Note:** On line 6, please update the recipient address to your actual email: `to="*****@*****.**"`. 
+
+After a successful submission, the temporary files are automatically deleted after 30 seconds.

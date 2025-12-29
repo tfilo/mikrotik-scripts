@@ -1,54 +1,10 @@
-:global daymode
-:global lastBtnPress
+:local RadioGuestDisabled [/interface get guest disabled]
 
-# 2.4ghz and 5ghz wifi
-:local Radio2Disabled [/interface get wifi2g disabled]
-:local Radio5Disabled [/interface get wifi5g disabled]
-# virtual wifi
-:local RadioGuestDisabled [/interface get wifi_guest disabled]
-
-if ($daymode=true) do {
-   # During day toogle guest wifi only.
-   if ($RadioGuestDisabled=false) do {
-      /interface wifi disable wifi_guest
-      :log info "Guest network disabled"
-   } else {
-      /interface wifi enable wifi_guest
-      :log info "Guest network enabled"
-   }
+# During day toogle guest wifi only.
+if ($RadioGuestDisabled=false) do {
+   /interface wifi disable guest
+   :log info "Guest network disabled"
 } else {
-   # During night toogle all wifi.
-   # When disabled than first press will enable 2.4 and 5ghz wifi.
-   # Then second press within 5s enable guest wifi.
-   # If wifi is already enabled, press will disable all wifi at once.
-   if ($Radio2Disabled=false && [:typeof $lastBtnPress]="time" && $lastBtnPress > ([/system clock get time] - 00:00:05)) do {
-      # Enable guest network only on second push in 5 seconds and only when 2ghz enabled already
-      if ($RadioGuestDisabled=true) do {
-          /interface wifi enable wifi_guest
-         :log info "Guest network enabled"
-         # Set time to old value so next press will be handled as first press
-         :set $lastBtnPress ([/system clock get time] - 00:00:10)
-      }
-   } else {
-      if ($RadioGuestDisabled=false) do {
-         /interface wifi disable wifi_guest
-         :log info "Guest network disabled"
-      }
-      if ($Radio2Disabled=false) do {
-         /interface wifi disable wifi2g
-         :log info "2.4Ghz network disabled"
-      } else {
-         /interface wifi enable wifi2g
-         :log info "2.4Ghz network enabled"
-      }
-      if ($Radio5Disabled=false) do {
-         /interface wifi disable wifi5g
-         :log info "5Ghz network disabled"
-      } else {
-         /interface wifi enable wifi5g
-         :log info "5Ghz network enabled"
-         # after enabling wifi save time for next press
-         :set $lastBtnPress [/system clock get time]
-      }
-   }
+   /interface wifi enable guest
+   :log info "Guest network enabled"
 }

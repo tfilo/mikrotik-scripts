@@ -1,14 +1,16 @@
-:global daymode
-:set $daymode true
-
-:local Radio2Disabled [/interface get wifi2g disabled]
-:local Radio5Disabled [/interface get wifi5g disabled]
+:local Radio2Disabled [/interface get "2ghz" disabled]
+:local Radio5Disabled [/interface get "5ghz" disabled]
+:local RadioIotDisabled [/interface get "iot" disabled]
 
 if ($Radio2Disabled=true) do {
-      /interface wifi enable wifi2g
+      /interface wifi enable "2ghz"
       :log info "2.4Ghz network enabled"
 }
 if ($Radio5Disabled=true) do {
-      /interface wifi enable wifi5g
+      /interface wifi enable "5ghz"
       :log info "5Ghz network enabled"
+}
+if ($RadioIotDisabled=true) do {
+      /interface wifi enable "iot"
+      :log info "IOT network enabled"
 }
